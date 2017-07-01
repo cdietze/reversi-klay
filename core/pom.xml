@@ -22,7 +22,11 @@
             <artifactId>klay-scene</artifactId>
             <version>${klay.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.github.cdietze</groupId>
+            <artifactId>klay-tripleklay-core</artifactId>
+            <version>${klay.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
