@@ -11,7 +11,7 @@
 
     <repositories>
         <repository>
-            <!-- When we depend on a snapshot of klay, get that from SonaType's OSS repository -->
+            <!-- When we depend on a snapshot of Klay, get that from SonaType's OSS repository -->
             <id>sonatype-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
             <releases>

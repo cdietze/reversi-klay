@@ -7,7 +7,6 @@ import reversi.core.Reversi
 object JvmMain {
     @JvmStatic
     fun main(args: Array<String>) {
-        println("Hello Kotlin on JVM!")
         val config = JavaPlatform.Config()
         config.width = 800
         config.height = 600
