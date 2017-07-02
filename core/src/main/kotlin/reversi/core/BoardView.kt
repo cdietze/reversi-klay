@@ -21,13 +21,9 @@ class BoardView(private val game: Reversi, viewSize: IDimension) : Layer() {
     }
 
     // we want two extra pixels in width/height to account for the grid lines
-    override fun width(): Float {
-        return cellSize * game.boardSize + LINE_WIDTH
-    }
+    override fun width(): Float = cellSize * game.boardSize + LINE_WIDTH
 
-    override fun height(): Float {
-        return width()
-    } // width == height
+    override fun height(): Float = width() // width == height
 
     override fun paintImpl(surf: Surface) {
         surf.setFillColor(0xFF000000.toInt()) // black with full alpha

@@ -17,7 +17,7 @@ class Logic(val boardSize: Int) {
             var sawOther = false
             var x = coord.x
             var y = coord.y
-            for (dd in 0..boardSize - 1) {
+            for (dd in 0 until boardSize) {
                 x += DX[ii]
                 y += DY[ii]
                 if (!inBounds(x, y)) break // stop when we end up off the board
@@ -47,7 +47,7 @@ class Logic(val boardSize: Int) {
             // look in this direction for captured pieces
             var x = coord.x
             var y = coord.y
-            for (dd in 0..boardSize - 1) {
+            for (dd in 0 until boardSize) {
                 x += DX[ii]
                 y += DY[ii]
                 if (!inBounds(x, y)) break // stop when we end up off the board
@@ -70,8 +70,8 @@ class Logic(val boardSize: Int) {
     fun legalPlays(board: Map<Coord, Piece>, color: Piece): List<Coord> {
         val plays = ArrayList<Coord>()
         // search every board position for a legal move; the force, it's so brute!
-        for (yy in 0..boardSize - 1) {
-            for (xx in 0..boardSize - 1) {
+        for (yy in 0 until boardSize) {
+            for (xx in 0 until boardSize) {
                 val coord = Coord(xx, yy)
                 if (board.containsKey(coord)) continue
                 if (isLegalPlay(board, color, coord)) plays.add(coord)
@@ -81,12 +81,12 @@ class Logic(val boardSize: Int) {
     }
 
     private fun inBounds(x: Int, y: Int): Boolean {
-        return x >= 0 && x < boardSize && y >= 0 && y < boardSize
+        return x in 0 until boardSize && y in 0 until boardSize
     }
 
     companion object {
 
-        protected val DX = intArrayOf(-1, 0, 1, -1, 1, -1, 0, 1)
-        protected val DY = intArrayOf(-1, -1, -1, 0, 0, 1, 1, 1)
+        private val DX = intArrayOf(-1, 0, 1, -1, 1, -1, 0, 1)
+        private val DY = intArrayOf(-1, -1, -1, 0, 0, 1, 1, 1)
     }
 }

@@ -5,9 +5,7 @@ import klay.core.TriangleBatch
 import tripleklay.shaders.ShaderUtil
 
 class FlipBatch(gl: GL20, zScale: Float) : TriangleBatch(gl, object : Source() {
-    override fun vertex(): String {
-        return FlipBatch.vertex(zScale)
-    }
+    override fun vertex(): String = FlipBatch.vertex(zScale)
 }) {
 
     /** The angle of rotation.  */
@@ -17,13 +15,8 @@ class FlipBatch(gl: GL20, zScale: Float) : TriangleBatch(gl, object : Source() {
     var eyeX: Float = 0.toFloat()
     var eyeY: Float = 0.toFloat()
 
-    private val uAngle: Int
-    private val uEye: Int
-
-    init {
-        uAngle = program.getUniformLocation("u_Angle")
-        uEye = program.getUniformLocation("u_Eye")
-    }
+    private val uAngle: Int = program.getUniformLocation("u_Angle")
+    private val uEye: Int = program.getUniformLocation("u_Eye")
 
     override fun begin(fbufWidth: Float, fbufHeight: Float, flip: Boolean) {
         super.begin(fbufWidth, fbufHeight, flip)
@@ -34,7 +27,7 @@ class FlipBatch(gl: GL20, zScale: Float) : TriangleBatch(gl, object : Source() {
 
     companion object {
 
-        protected fun vertex(zScale: Float): String {
+        private fun vertex(zScale: Float): String {
             return TriangleBatch.Source.VERT_UNIFS +
                     "uniform float u_Angle;\n" +
                     "uniform vec2 u_Eye;\n" +

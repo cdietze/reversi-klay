@@ -12,11 +12,14 @@ import java.util.*
 class Reversi(plat: Platform) : SceneGame(plat, 33) {
 
     enum class Piece {
-        BLACK, WHITE;
+        BLACK {
+            override val next: Piece get() = WHITE
+        },
+        WHITE {
+            override val next: Piece get() = BLACK
+        };
 
-        operator fun next(): Piece {
-            return values()[(ordinal + 1) % values().size]
-        }
+        abstract val next: Piece
     }
 
     data class Coord(val x: Int, val y: Int) {
@@ -34,17 +37,12 @@ class Reversi(plat: Platform) : SceneGame(plat, 33) {
     val pieces: RMap<Coord, Piece> = RMap.create()
     val turn: Value<Piece> = Value.create(Piece.BLACK)
     val logic = Logic(boardSize)
-    val pointer: Pointer
-    val anim: Animator
+    val pointer: Pointer = Pointer(plat, rootLayer, true)
+    val anim: Animator = Animator(paint) // create an animator for some zip zing
 
     init {
-
         // wire up pointer and mouse event dispatch
-        pointer = Pointer(plat, rootLayer, true)
         plat.input.mouseEvents.connect(Mouse.Dispatcher(rootLayer, false))
-
-        // create an animator for some zip zing
-        anim = Animator(paint)
 
         // figure out how big the game view is
         val size = plat.graphics.viewSize
@@ -71,7 +69,7 @@ class Reversi(plat: Platform) : SceneGame(plat, 33) {
                 endGame()
             } else {
                 lastPlayerPassed = true
-                turn.update(color.next())
+                turn.update(color.next)
             }
         })
 
@@ -116,7 +114,7 @@ class Reversi(plat: Platform) : SceneGame(plat, 33) {
             msg.append(winners[0]).append(" wins!")
         else {
             for (p in winners) {
-                if (msg.length > 0) msg.append(" and ")
+                if (msg.isNotEmpty()) msg.append(" and ")
                 msg.append(p)
             }
             msg.append(" tie.")
@@ -124,16 +122,16 @@ class Reversi(plat: Platform) : SceneGame(plat, 33) {
         msg.append("\nClick to play again.")
 
         // render the game over message and display it in a layer
-        val vsize = plat.graphics.viewSize
+        val viewSize = plat.graphics.viewSize
         val block = TextBlock(plat.graphics.layoutText(
                 msg.toString(), TextFormat(Font("Helvetica", Font.Style.BOLD, 48f)),
-                TextWrap(vsize.width - 20)))
+                TextWrap(viewSize.width - 20)))
         val canvas = plat.graphics.createCanvas(block.bounds.width + 4, block.bounds.height + 4)
         canvas.setFillColor(0xFF0000FF.toInt()).setStrokeColor(0xFFFFFFFF.toInt()).setStrokeWidth(4f)
         block.stroke(canvas, TextBlock.Align.CENTER, 2f, 2f)
         block.fill(canvas, TextBlock.Align.CENTER, 2f, 2f)
         val layer = ImageLayer(canvas.toTexture())
-        rootLayer.addFloorAt(layer, (vsize.width - canvas.width) / 2, (vsize.height - canvas.height) / 2)
+        rootLayer.addFloorAt(layer, (viewSize.width - canvas.width) / 2, (viewSize.height - canvas.height) / 2)
 
         // when the player clicks anywhere, restart the game
         pointer.events.connect(object : (klay.core.Pointer.Event) -> Unit {

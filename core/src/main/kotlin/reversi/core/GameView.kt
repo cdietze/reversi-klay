@@ -80,7 +80,7 @@ class GameView(private val game: Reversi, viewSize: IDimension) : GroupLayer() {
                     // apply this play to the game state
                     game.logic.applyPlay(game.pieces, color, coord)
                     // and move to the next player's turn
-                    game.turn.update(color.next())
+                    game.turn.update(color.next)
                 }
             })
             // when the player hovers over a potential play, highlight it
@@ -106,7 +106,7 @@ class GameView(private val game: Reversi, viewSize: IDimension) : GroupLayer() {
             pview = addPiece(at, piece)
             pviews.put(at, pview)
             // animate the piece view "falling" into place
-            pview!!.setVisible(false).setScale(2f)
+            pview.setVisible(false).setScale(2f)
             game.anim.setVisible(pview, true).then().tweenScale(pview).to(1f).`in`(500f).bounceOut()
             game.anim.delay(250f).then().play(click)
             game.anim.addBarrier()
@@ -114,7 +114,7 @@ class GameView(private val game: Reversi, viewSize: IDimension) : GroupLayer() {
         } else {
             val fview = pview
             val tile = ptiles[piece.ordinal]
-            val eye = LayerUtil.layerToScreen(pview, fview!!.width() / 2, fview!!.height() / 2)
+            val eye = LayerUtil.layerToScreen(pview, fview.width() / 2, fview.height() / 2)
             val flipAngle = object : Animation.Value {
                 override fun initial(): Float {
                     return flip.angle
@@ -127,14 +127,14 @@ class GameView(private val game: Reversi, viewSize: IDimension) : GroupLayer() {
             game.anim.action(Runnable {
                 flip.eyeX = eye.x
                 flip.eyeY = eye.y
-                fview!!.setBatch(flip)
-            }).then().tween(flipAngle).from(0f).to(MathUtil.PI / 2).`in`(150f).then().action(Runnable { fview!!.setTile(tile) }).then().tween(flipAngle).to(MathUtil.PI).`in`(150f).then().action(Runnable { fview!!.setBatch(null) })
+                fview.setBatch(flip)
+            }).then().tween(flipAngle).from(0f).to(MathUtil.PI / 2).`in`(150f).then().action(Runnable { fview.setTile(tile) }).then().tween(flipAngle).to(MathUtil.PI).`in`(150f).then().action(Runnable { fview.setBatch(null) })
             game.anim.addBarrier()
         }
     }
 
     private fun clearPiece(at: Coord) {
         val pview = pviews.remove(at)
-        if (pview != null) pview!!.close()
+        if (pview != null) pview.close()
     }
 }
