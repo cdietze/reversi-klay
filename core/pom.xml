@@ -13,6 +13,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>assets</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.github.cdietze</groupId>
             <artifactId>klay-core</artifactId>
             <version>${klay.version}</version>
