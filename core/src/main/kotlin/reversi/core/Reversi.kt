@@ -35,7 +35,7 @@ class Reversi(plat: Platform) : SceneGame(plat, 33) {
 
     val boardSize = 8
     val pieces: RMap<Coord, Piece> = RMap.create()
-    val turn: Value<Piece> = Value.create(Piece.BLACK)
+    val turn: Value<Piece> = Value(Piece.BLACK)
     val logic = Logic(boardSize)
     val pointer: Pointer = Pointer(plat, rootLayer, true)
     val anim: Animator = Animator(paint) // create an animator for some zip zing
