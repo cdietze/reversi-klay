@@ -4,7 +4,7 @@ import klay.core.Surface
 import klay.scene.Layer
 import pythagoras.f.IDimension
 
-class BoardView(private val game: Reversi, viewSize: IDimension) : Layer() {
+class BoardView(val game: Reversi, viewSize: IDimension) : Layer() {
 
     val cellSize: Float
 

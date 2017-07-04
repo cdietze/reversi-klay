@@ -85,7 +85,6 @@ class Logic(val boardSize: Int) {
     }
 
     companion object {
-
         private val DX = intArrayOf(-1, 0, 1, -1, 1, -1, 0, 1)
         private val DY = intArrayOf(-1, -1, -1, 0, 0, 1, 1, 1)
     }

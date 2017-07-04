@@ -15,21 +15,17 @@ import reversi.core.Reversi.Piece
 import tripleklay.anim.Animation
 import java.util.*
 
-class GameView(private val game: Reversi, viewSize: IDimension) : GroupLayer() {
-    private val bview: BoardView
+class GameView(val game: Reversi, viewSize: IDimension) : GroupLayer() {
+    private val bview: BoardView = BoardView(game, viewSize)
     private val pgroup = GroupLayer()
 
     private val ptiles = arrayOfNulls<Tile>(Piece.values().size)
     private val pviews = HashMap<Coord, ImageLayer>()
 
-    private val click: Sound
-    private val flip: FlipBatch
+    private val click: Sound = game.plat.assets.getSound("sounds/click")
+    private val flip: FlipBatch = FlipBatch(game.plat.graphics.gl, 2f)
 
     init {
-        this.bview = BoardView(game, viewSize)
-        this.click = game.plat.assets.getSound("sounds/click")
-        this.flip = FlipBatch(game.plat.graphics.gl, 2f)
-
         addCenterAt(bview, viewSize.width / 2, viewSize.height / 2)
         addAt(pgroup, bview.tx(), bview.ty())
 
@@ -124,11 +120,16 @@ class GameView(private val game: Reversi, viewSize: IDimension) : GroupLayer() {
                     flip.angle = value
                 }
             }
-            game.anim.action(Runnable {
-                flip.eyeX = eye.x
-                flip.eyeY = eye.y
-                fview.setBatch(flip)
-            }).then().tween(flipAngle).from(0f).to(MathUtil.PI / 2).`in`(150f).then().action(Runnable { fview.setTile(tile) }).then().tween(flipAngle).to(MathUtil.PI).`in`(150f).then().action(Runnable { fview.setBatch(null) })
+            game.anim
+                    .action(Runnable {
+                        flip.eyeX = eye.x
+                        flip.eyeY = eye.y
+                        fview.setBatch(flip)
+                    }).then()
+                    .tween(flipAngle).from(0f).to(MathUtil.PI / 2).`in`(150f).then()
+                    .action(Runnable { fview.setTile(tile) }).then()
+                    .tween(flipAngle).to(MathUtil.PI).`in`(150f).then()
+                    .action(Runnable { fview.setBatch(null) })
             game.anim.addBarrier()
         }
     }

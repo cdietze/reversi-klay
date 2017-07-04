@@ -7,7 +7,6 @@ import tripleklay.shaders.ShaderUtil
 class FlipBatch(gl: GL20, zScale: Float) : TriangleBatch(gl, object : Source() {
     override fun vertex(): String = FlipBatch.vertex(zScale)
 }) {
-
     /** The angle of rotation.  */
     var angle: Float = 0.toFloat()
 
