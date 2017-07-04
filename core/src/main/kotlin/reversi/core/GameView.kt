@@ -121,15 +121,15 @@ class GameView(val game: Reversi, viewSize: IDimension) : GroupLayer() {
                 }
             }
             game.anim
-                    .action(Runnable {
+                    .action {
                         flip.eyeX = eye.x
                         flip.eyeY = eye.y
                         fview.setBatch(flip)
-                    }).then()
+                    }.then()
                     .tween(flipAngle).from(0f).to(MathUtil.PI / 2).`in`(150f).then()
-                    .action(Runnable { fview.setTile(tile) }).then()
+                    .action { fview.setTile(tile) }.then()
                     .tween(flipAngle).to(MathUtil.PI).`in`(150f).then()
-                    .action(Runnable { fview.setBatch(null) })
+                    .action { fview.setBatch(null) }
             game.anim.addBarrier()
         }
     }
